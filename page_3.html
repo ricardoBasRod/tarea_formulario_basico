@@ -3,20 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Inicio</title>
+	<title>Página 3</title>
 	<link rel="stylesheet" href="css.css">
 </head>
 <body>
-	<div id="header"></div>
 	
-	<main id="content">
-	
-		<h1>Bienvenido a la página de inicio</h1>
-		<p>Este es el contenido de la página de inicio.</p>
-	</main>
-	
-	<iframe id="footer" src="footer.html" width="100%" height="60" frameborder="0" style="border: none;"></iframe>
+<div id="header"></div>
+	<h1>Página 3</h1>
+	<p>Este es el contenido de la página 3.</p>
+		<iframe id="footer" src="footer.html" width="100%" height="60" frameborder="0" style="border: none;"></iframe>
 
+</body>
 <script>
 fetch("header.html")
     .then(response => response.text())
@@ -24,6 +21,4 @@ fetch("header.html")
         document.getElementById("header").innerHTML = data;
     });
 </script>
-</body>
 </html>
-
