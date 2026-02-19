@@ -10,7 +10,7 @@
 	<main>
 		<section aria-labelledby="signup-heading">
 			<h1 id="signup-heading">Create Account</h1>
-			<form>
+			<form id="createAccountForm">
 				<div>
 					<label for="fullname">Full Name</label>
 					<input type="text" id="fullname" name="fullname" required>
@@ -34,7 +34,7 @@
 
 
 				<div>
-					<button type="button" onclick="window.location.href='form.html'">Create Account</button>
+					<button type="button" onclick="printUserData()">Create Account</button>
 				</div>
 
 				<div>
@@ -43,5 +43,38 @@
 			</form>
 		</section>
 	</main>
+
+	<script>
+		function printUserData() {
+			const fullname = document.getElementById('fullname').value;
+			const email = document.getElementById('email').value;
+			const password = document.getElementById('password').value;
+			const confirmPassword = document.getElementById('confirm-password').value;
+
+			// Validar que los campos no estén vacíos
+			if (!fullname || !email || !password || !confirmPassword) {
+				console.warn('Por favor completa todos los campos');
+				alert('Por favor completa todos los campos');
+				return;
+			}
+
+			// Validar que las contraseñas coincidan
+			if (password !== confirmPassword) {
+				console.warn('Las contraseñas no coinciden');
+				alert('Las contraseñas no coinciden');
+				return;
+			}
+
+			// Imprimir los datos en la consola
+			console.log('=== Datos del Usuario ===');
+			console.log('Nombre Completo:', fullname);
+			console.log('Email:', email);
+			console.log('Contraseña:', password);
+			console.log('========================');
+
+			// Redirigir a form.html
+			window.location.href = 'landing_page.html';
+		}
+	</script>
 </body>
 </html>

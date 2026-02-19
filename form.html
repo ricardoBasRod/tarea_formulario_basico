@@ -1,12 +1,88 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Formulario</title>
-</head>
-<body>
-	<h1>Formulario</h1>
-	<p>Contenido del formulario.</p>
-</body>
-</html>
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css.css">
+		<title>Login</title>
+		<style>
+			.error-message {
+				color: red;
+				background-color: #ffe6e6;
+				padding: 10px;
+				border-radius: 4px;
+				margin-bottom: 15px;
+				display: none;
+				text-align: center;
+			}
+			.error-message.show {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<section aria-labelledby="login-heading">
+				<h1 id="login-heading">Welcome Back</h1>
+				<div id="errorMessage" class="error-message">Usuario o contraseña incorrecto</div>
+				<form id="loginForm" onsubmit="validateLogin(event)">
+					<div>
+						<label for="email">Email</label>
+						<input type="email" id="email" name="email" required autocomplete="email">
+					</div>
+
+					<div>
+						<label for="password">Password</label>
+						<input type="password" id="password" name="password" required autocomplete="current-password">
+					</div>
+
+					<div>
+						<input type="checkbox" id="remember" name="remember">
+						<label for="remember">Remember me</label>
+					</div>
+
+					<div>
+						<button type="submit">Sign In</button>
+					</div>
+
+
+				</form>
+			</section>
+		</main>
+
+		<script>
+			function validateLogin(event) {
+				event.preventDefault();
+				
+				const email = document.getElementById('email').value;
+				const password = document.getElementById('password').value;
+				const errorMessage = document.getElementById('errorMessage');
+				
+				// Cargar usuarios desde JSON
+				fetch('usuarios.json')
+					.then(response => response.json())
+					.then(usuarios => {
+						// Buscar el usuario con el email y contraseña correspondiente
+						const usuarioValido = usuarios.find(usuario => 
+							usuario.email === email && usuario.password === password
+						);
+						
+						if (usuarioValido) {
+							// Credenciales correctas - redirigir a la siguiente página
+							errorMessage.classList.remove('show');
+							window.location.href = 'landing_page.html';
+						} else {
+							// Credenciales incorrectas - mostrar error
+							errorMessage.classList.add('show');
+						}
+					})
+					.catch(error => {
+						console.error('Error al cargar usuarios:', error);
+						errorMessage.textContent = 'Error al verificar credenciales';
+						errorMessage.classList.add('show');
+					});
+			}
+		</script>
+	</body>
+	</html>
