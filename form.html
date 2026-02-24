@@ -52,6 +52,16 @@
 		</main>
 
 		<script>
+			// Create and store auth token with expiry (localStorage)
+			function createAuthToken(userEmail, remember) {
+				const raw = userEmail + ':' + Date.now() + ':' + Math.random();
+				const token = btoa(raw);
+				const expires = Date.now() + (remember ? 7 * 24 * 60 * 60 * 1000 : 30 * 60 * 1000); // 7 days or 30 minutes
+				const payload = { token, expires, email: userEmail };
+				localStorage.setItem('authToken', JSON.stringify(payload));
+				return payload;
+			}
+
 			function validateLogin(event) {
 				event.preventDefault();
 				
@@ -69,8 +79,10 @@
 						);
 						
 						if (usuarioValido) {
-							// Credenciales correctas - redirigir a la siguiente página
+							// Credenciales correctas - generar token y redirigir a la siguiente página
 							errorMessage.classList.remove('show');
+							const remember = document.getElementById('remember').checked;
+							createAuthToken(usuarioValido.email, remember);
 							window.location.href = 'landing_page.html';
 						} else {
 							// Credenciales incorrectas - mostrar error

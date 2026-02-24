@@ -8,6 +8,27 @@
 </head>
 <body>
 	
+	<!-- Check for valid auth token; redirect to login if missing/expired -->
+	<script>
+		(function checkAuth() {
+			const raw = localStorage.getItem('authToken');
+			if (!raw) {
+				window.location.href = 'form.html';
+				return;
+			}
+			try {
+				const obj = JSON.parse(raw);
+				if (!obj.token || !obj.expires || Date.now() > obj.expires) {
+					localStorage.removeItem('authToken');
+					window.location.href = 'form.html';
+				}
+			} catch (e) {
+				localStorage.removeItem('authToken');
+				window.location.href = 'form.html';
+			}
+		})();
+	</script>
+	
 <div id="header"></div>
 	<h1>Página 3</h1>
 	<p>Este es el contenido de la página 3.</p>

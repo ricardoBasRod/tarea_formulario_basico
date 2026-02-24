@@ -8,6 +8,27 @@
 </head>
 <body>
 	<div id="header"></div>
+
+	<!-- Check for valid auth token; redirect to login if missing/expired -->
+	<script>
+		(function checkAuth() {
+			const raw = localStorage.getItem('authToken');
+			if (!raw) {
+				window.location.href = 'form.html';
+				return;
+			}
+			try {
+				const obj = JSON.parse(raw);
+				if (!obj.token || !obj.expires || Date.now() > obj.expires) {
+					localStorage.removeItem('authToken');
+					window.location.href = 'form.html';
+				}
+			} catch (e) {
+				localStorage.removeItem('authToken');
+				window.location.href = 'form.html';
+			}
+		})();
+	</script>
 	
 	<main id="content">
 	
