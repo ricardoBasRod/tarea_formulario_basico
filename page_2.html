@@ -5,41 +5,52 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Página 2</title>
 	<link rel="stylesheet" href="css.css">
+
 </head>
 <body>
-	
-	<!-- Check for valid auth token; redirect to login if missing/expired -->
+	<div id="header"></div>
+	<!-- Auth and page scripts are loaded from app.js -->
+	<script src="app.js"></script>
 	<script>
-		(function checkAuth() {
-			const raw = localStorage.getItem('authToken');
-			if (!raw) {
-				window.location.href = 'form.html';
-				return;
+		// initPokemonGrid is page-specific: call it only on page_2 and wire filters
+		document.addEventListener('DOMContentLoaded', () => {
+			if (window.app && typeof window.app.initPokemonGrid === 'function') {
+				window.app.initPokemonGrid();
 			}
-			try {
-				const obj = JSON.parse(raw);
-				if (!obj.token || !obj.expires || Date.now() > obj.expires) {
-					localStorage.removeItem('authToken');
-					window.location.href = 'form.html';
-				}
-			} catch (e) {
-				localStorage.removeItem('authToken');
-				window.location.href = 'form.html';
-			}
-		})();
+			// wire filter button
+			const btn = document.getElementById('filterBtn');
+			if (btn) btn.addEventListener('click', () => { if (window.app && window.app.applyFilters) window.app.applyFilters(); });
+			const reset = document.getElementById('resetBtn');
+			if (reset) reset.addEventListener('click', () => {
+				document.getElementById('filterName').value = '';
+				document.getElementById('filterId').value = '';
+				document.getElementById('typeFilter').value = '';
+				if (window.app && window.app.applyFilters) window.app.applyFilters();
+			});
+		});
 	</script>
+
+	<!-- Filters: tipo, id, nombre -->
+	<div class="filters" style="padding:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+		<label>Tipo:
+			<select id="typeFilter"></select>
+		</label>
+		<label>ID:
+			<input id="filterId" type="number" min="1" placeholder="Ej: 25">
+		</label>
+		<label>Nombre:
+			<input id="filterName" type="text" placeholder="Ej: pikachu">
+		</label>
+		<button id="filterBtn">Filtrar</button>
+		<button id="resetBtn" type="button">Restablecer</button>
+	</div>
 	
-<div id="header"></div>
-	<h1>Página 2</h1>
-	<p>Este es el contenido de la página 2.</p>
+
+
+		<!-- Contenedor donde se mostrará el pokemón -->
+		<div id="pokemon"></div>
+		
 	<iframe id="footer" src="footer.html" width="100%" height="60" frameborder="0" style="border: none;"></iframe>
 
 </body>
-<script>
-fetch("header.html")
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById("header").innerHTML = data;
-    });
-</script>
 </html>
