@@ -13,7 +13,33 @@
 	
 
 	<h1>Página 3</h1>
-	<p>Este es el contenido de la página 3.</p>
+
+	<h2>Batalla Pokémon</h2>
+	<div class="battle-setup" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+		<label>Pokémon 1:
+			<select id="poke1"></select>
+		</label>
+		<label>Pokémon 2:
+			<select id="poke2"></select>
+		</label>
+		<button id="startBattle">Iniciar Batalla</button>
+	</div>
+
+	<div class="battle-area" style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-top:12px;">
+		<div class="combatant" id="combatant1" style="width:45%;">
+			<h3 id="label1"></h3>
+			<img id="img1" src="" alt="" style="max-width:200px;display:block;" />
+			<div id="hp1">Vida: 100%</div>
+		</div>
+		<div class="combatant" id="combatant2" style="width:45%;">
+			<h3 id="label2"></h3>
+			<img id="img2" src="" alt="" style="max-width:200px;display:block;" />
+			<div id="hp2">Vida: 100%</div>
+		</div>
+	</div>
+
+	<div id="battleLog" style="margin-top:16px;max-height:320px;overflow:auto;border:1px solid #ccc;padding:8px;background:#fafafa;"></div>
+	<div id="winner" style="margin-top:16px;text-align:center;"></div>
 		<iframe id="footer" src="footer.html" width="100%" height="60" frameborder="0" style="border: none;"></iframe>
 
 </body>
